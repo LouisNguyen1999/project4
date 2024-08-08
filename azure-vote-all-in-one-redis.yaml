@@ -12,6 +12,18 @@ spec:
       labels:
         app: azure-vote-back
     spec:
+      tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+        effect: NoSchedule
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 300
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 300
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
@@ -53,12 +65,24 @@ spec:
       labels:
         app: azure-vote-front
     spec:
+      tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+        effect: NoSchedule
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 300
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 300
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
       - name: azure-vote-front
         #image: mcr.microsoft.com/azuredocs/azure-vote-front:v1
-        image: myacr202106.azurecr.io/azure-vote-front:v1
+        image: lennxacr.azurecr.io/azure-vote-front:v1
         ports:
         - containerPort: 80
         resources:
